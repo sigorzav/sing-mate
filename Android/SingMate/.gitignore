@@ -1,0 +1,48 @@
+# Gradle/Build
+.gradle/
+build/
+*/build/
+
+# Local
+/local.properties
+
+# Android Studio
+/.idea/
+/*.iml
+*.iws
+*.ipr
+*.bak
+*.swp
+
+# Log/Debug
+*.log
+*.lock
+*.gz
+*.orig
+*.rej
+
+# Git/OS
+.DS_Store
+Thumbs.db
+*.swo
+*.swn
+*.swp
+*.sublime-workspace
+
+# Keystore
+*.jks
+*.keystore
+
+# Kotlin
+*.kotlin_metadata/
+
+# Build
+*.apk
+*.aab
+*.dex
+
+# Crashlytics/Firebase
+crashlytics.properties
+fabric.properties
+app/google-services.json
+*.pem
