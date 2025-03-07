@@ -1,0 +1,45 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+.Python
+.env
+*.env
+*.venv
+*.virtualenv
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+/media/
+staticfiles/
+static/
+
+# Django Migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+# env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs & Debug
+logs/
+*.log
+*.pot
+
+# IDE
+.vscode/
+.idea/
+.DS_Store  # macOS에서 자동 생성되는 파일
+Thumbs.db  # Windows에서 자동 생성되는 파일
+
+# Virtual Environment
+venv/
+ENV/
+.env/
