@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382336234737",
+    "project_id": "singmate-3e1de",
+    "storage_bucket": "singmate-3e1de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382336234737:android:ca73341872e97fad736550",
+        "android_client_info": {
+          "package_name": "com.app.singmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvhNrWGIPFOFx9_fqjux8Y3GBZ3NNYEcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
