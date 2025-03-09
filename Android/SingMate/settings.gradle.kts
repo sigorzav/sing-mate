@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SingMate"
+rootProject.name = "singmate"
 include(":app")
+ 
