@@ -11,8 +11,16 @@ public class EnvConfigTest {
         Dotenv dotenv = envConfig.dotenv();
 
         String dbUsername = dotenv.get("DB_USERNAME");
+        String dbPassword = dotenv.get("DB_PASSWORD");
+        String dbUrl = dotenv.get("DB_URL");
 
         Assertions.assertNotNull(dbUsername, "DB_USERNAME should not be null");
         Assertions.assertFalse(dbUsername.isEmpty(), "DB_USERNAME should not be empty");    
+
+        Assertions.assertNotNull(dbPassword, "DB_PASSWORD should not be null");
+        Assertions.assertFalse(dbPassword.isEmpty(), "DB_PASSWORD should not be empty");
+
+        Assertions.assertNotNull(dbUrl, "DB_URL should not be null");
+        Assertions.assertFalse(dbUrl.isEmpty(), "DB_URL should not be empty");
     }
 }
