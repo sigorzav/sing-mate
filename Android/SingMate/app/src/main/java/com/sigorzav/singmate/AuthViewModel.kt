@@ -2,54 +2,35 @@ package com.sigorzav.singmate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _loginState = MutableStateFlow<AuthResult?>(null)
     val loginState: StateFlow<AuthResult?> = _loginState
 
-    private val _isUserLoggedIn = MutableStateFlow(auth.currentUser != null)
+    private val _isUserLoggedIn = MutableStateFlow(false)
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
     fun signIn(email: String, password: String) {
-        viewModelScope.launch {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _loginState.value = AuthResult(success = true)
-                        _isUserLoggedIn.value = true
-                    } else {
-                        _loginState.value = AuthResult(success = false, message = task.exception?.message ?: "Login failed")
-                    }
-                }
-        }
+        // TODO: Implement custom authentication logic
+        _loginState.value = AuthResult(success = true)
+        _isUserLoggedIn.value = true
     }
 
     fun signUp(email: String, password: String) {
-        viewModelScope.launch {
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _loginState.value = AuthResult(success = true)
-                    } else {
-                        _loginState.value = AuthResult(success = false, message = task.exception?.message ?: "Sign up failed")
-                    }
-                }
-        }
+        // TODO: Implement custom sign-up logic
+        _loginState.value = AuthResult(success = true)
     }
 
     fun signOut() {
-        auth.signOut()
         _isUserLoggedIn.value = false
     }
 
     fun getCurrentUserEmail(): String {
-        return auth.currentUser?.email ?: "Unknown"
+        return if (_isUserLoggedIn.value) "UserEmailPlaceholder" else "Unknown"
     }
 
 }
