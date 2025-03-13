@@ -70,6 +70,12 @@ dependencies {
     // Debug 용 UI Tool
     debugImplementation(libs.debug.compose.ui.tooling)
 
+    // API
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
