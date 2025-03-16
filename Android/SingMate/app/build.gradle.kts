@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     // Firebase
-    implementation(platform(libs.firebaseBom))
+    // implementation(platform(libs.firebaseBom))
 
     // Jetpack Compose BOM (버전 자동 관리)
     implementation(platform(libs.compose.bom))
@@ -65,10 +65,16 @@ dependencies {
 
     // ViewModel + Compose 연동
     implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.firebase.auth.ktx)
+    // implementation(libs.firebase.auth.ktx)
 
     // Debug 용 UI Tool
     debugImplementation(libs.debug.compose.ui.tooling)
+
+    // API
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

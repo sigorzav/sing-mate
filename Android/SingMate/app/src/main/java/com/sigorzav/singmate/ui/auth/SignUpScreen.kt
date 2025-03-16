@@ -5,7 +5,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.sigorzav.singmate.AuthViewModel
+import com.sigorzav.singmate.viewmodel.auth.AuthViewModel
 
 @Composable
 fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
@@ -24,7 +24,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
     ) {
         Text(text = "회원가입", style = MaterialTheme.typography.headlineMedium)
 
-        // email
+        // EMAIL
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -34,7 +34,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // userId
+        // USER_ID
         OutlinedTextField(
             value = userId,
             onValueChange = { userId = it },
@@ -44,7 +44,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // password
+        // PASSWORD
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -55,7 +55,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // confirmPassword
+        // CONFIRM_PASSWORD
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
@@ -66,7 +66,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // nickname
+        // NICKNAME
         OutlinedTextField(
             value = nickname,
             onValueChange = { nickname = it },
@@ -76,7 +76,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // birthDay
+        // BIRTHDAY
         OutlinedTextField(
             value = birthDay,
             onValueChange = { birthDay = it },
@@ -86,7 +86,7 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // gender
+        // GENDER
         OutlinedTextField(
             value = gender,
             onValueChange = { gender = it },
