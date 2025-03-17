@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
+    id("kotlin-kapt")
 }
 
 android {
@@ -47,6 +49,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.kotlinx.metadata.jvm)
 
     // Firebase
     // implementation(platform(libs.firebaseBom))
@@ -75,6 +78,16 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.gson)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation(libs.hilt.core)
+
+    // Jetpack Compose에서 'hiltViewModel()' 사용을 위해 추가
+    implementation(libs.hilt.navigation.compose)
+
+    kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

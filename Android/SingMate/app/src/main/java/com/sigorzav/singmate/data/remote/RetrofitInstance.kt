@@ -5,6 +5,10 @@ import com.sigorzav.singmate.data.remote.song.SongAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * 2025.03.17 Not Used
+ * - object cannot be managed by Hilt
+ */
 object RetrofitInstance {
 
     private val BASE_URL = EnvConfig.BaseUrl.valueOf(EnvConfig.ENVIRONMENT).url

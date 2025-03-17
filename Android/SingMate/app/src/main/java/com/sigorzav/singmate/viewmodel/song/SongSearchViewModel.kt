@@ -2,31 +2,32 @@ package com.sigorzav.singmate.viewmodel.song
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sigorzav.singmate.data.remote.RetrofitInstance
+import com.sigorzav.singmate.data.repository.SongRepository
 import com.sigorzav.singmate.model.Song
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SongSearchViewModel : ViewModel() {
+@HiltViewModel
+class SongSearchViewModel @Inject constructor(private val songRepository: SongRepository) : ViewModel() {
 
     private val _searchResults = MutableStateFlow<List<Song>>(emptyList())
-    val searchResults: StateFlow<List<Song>> = _searchResults
+    val searchResults: StateFlow<List<Song>> = _searchResults.asStateFlow()
 
-    fun searchMusic(query: String) {
+    fun searchSong(query: String) {
         viewModelScope.launch {
-            try {
-                val response = RetrofitInstance.api.searchSongs(query)
-                if (response.statusCode == 200) {
-                    _searchResults.emit(response.data)
-                } else {
-                    _searchResults.emit(emptyList())
+            songRepository.searchSongs(query)
+                .catch { e ->
+                    e.printStackTrace()
+                    _searchResults.value = emptyList()
                 }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _searchResults.value = emptyList()
-            }
+                .collect { response ->
+                    _searchResults.emit(response)
+                }
         }
     }
 }
