@@ -23,11 +23,11 @@ public class SongServiceImpl implements SongService {
      * 노래 검색
      */
     @Override
-    public ApiResponse<Object> songSearchList(String query) {
+    public ApiResponse<Object> searchSongs(String query) {
         log.info("songSearch request processing: {}", query);
 
         try {
-            List<SongDTO> songs = spotifyService.songSearchList(query);
+            List<SongDTO> songs = spotifyService.searchSongs(query);
             return new ApiResponse<>(songs);
         } catch (Exception e) {
             log.error("노래 검색 오류 발생", e);

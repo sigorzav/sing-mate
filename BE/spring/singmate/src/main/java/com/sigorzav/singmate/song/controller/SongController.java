@@ -17,10 +17,10 @@ public class SongController {
 
     private final SongService songService;
 
-    @GetMapping("search-list")
+    @GetMapping("search")
     @ResponseBody
     @Operation(summary = "노래 검색", description = "가수나, 곡의 이름 등으로 노래를 검색합니다.", tags = {"노래 관리"})
-    public ApiResponse<Object> searchList(@RequestParam String query) {
-        return songService.songSearchList(query);
+    public ApiResponse<Object> searchSongs(@RequestParam String query) {
+        return songService.searchSongs(query);
     }
 }

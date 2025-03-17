@@ -25,13 +25,13 @@ public class SpotifyService {
     /**
      * 노래 검색
      */
-    public List<SongDTO> songSearchList(String query) {
+    public List<SongDTO> searchSongs(String query) {
         SpotifyApi spotifyApi = spotifyConfig.getSpotifyApi();
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query).build();
 
         try {
             Track[] tracks = searchTracksRequest.execute().getItems();
-            return generateSongList(tracks);
+            return convertToSongs(tracks);
         } catch (IOException | SpotifyWebApiException | RuntimeException | ParseException e) {
             log.error("Spotify API 검색 오류 발생", e);
             throw new RuntimeException("Spotify API 검색이 실패했습니다.", e);
@@ -41,7 +41,7 @@ public class SpotifyService {
     /**
      * 노래 검색 - 결과 리스트 생성
      */
-    private List<SongDTO> generateSongList(Track[] tracks) {
+    private List<SongDTO> convertToSongs(Track[] tracks) {
         //List<Map<String, Object>> songList = new ArrayList<>();
         List<SongDTO> songs = new ArrayList<>();
 
