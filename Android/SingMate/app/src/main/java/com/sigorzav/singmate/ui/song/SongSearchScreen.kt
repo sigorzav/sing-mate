@@ -49,7 +49,7 @@ fun SongSearchScreen(viewModel: SongSearchViewModel = viewModel()) {
                 onValueChange = { query = it },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
-                    viewModel.searchSong(query)
+                    viewModel.fetchSearchSongs(query)
                 }),
                 modifier = Modifier
                     .weight(1f)
@@ -57,7 +57,7 @@ fun SongSearchScreen(viewModel: SongSearchViewModel = viewModel()) {
             )
 
             IconButton(onClick = {
-                viewModel.searchSong(query)
+                viewModel.fetchSearchSongs(query)
             }) {
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }

@@ -18,9 +18,9 @@ class SongSearchViewModel @Inject constructor(private val songRepository: SongRe
     private val _searchResults = MutableStateFlow<List<Song>>(emptyList())
     val searchResults: StateFlow<List<Song>> = _searchResults.asStateFlow()
 
-    fun searchSong(query: String) {
+    fun fetchSearchSongs(query: String) {
         viewModelScope.launch {
-            songRepository.searchSongs(query)
+            songRepository.fetchSearchSongs(query)
                 .catch { e ->
                     e.printStackTrace()
                     _searchResults.value = emptyList()
