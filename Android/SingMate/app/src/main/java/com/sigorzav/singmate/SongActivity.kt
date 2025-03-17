@@ -7,8 +7,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sigorzav.singmate.ui.song.MusicSearchScreen
-import com.sigorzav.singmate.viewmodel.song.MusicSearchViewModel
+import com.sigorzav.singmate.ui.song.SongSearchScreen
+
+import com.sigorzav.singmate.viewmodel.song.SongSearchViewModel
 
 class SongActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,11 +18,11 @@ class SongActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val viewModel: MusicSearchViewModel = viewModel()
+            val viewModel: SongSearchViewModel = viewModel()
 
-            NavHost(navController = navController, startDestination = "music_search") {
-                composable("music_search") {
-                    MusicSearchScreen(viewModel = viewModel)
+            NavHost(navController = navController, startDestination = "song_search") {
+                composable("song_search") {
+                    SongSearchScreen(viewModel = viewModel)
                 }
             }
         }

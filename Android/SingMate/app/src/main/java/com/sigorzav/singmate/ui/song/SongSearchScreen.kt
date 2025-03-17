@@ -18,17 +18,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sigorzav.singmate.model.Song
-import com.sigorzav.singmate.viewmodel.song.MusicSearchViewModel
+import com.sigorzav.singmate.viewmodel.song.SongSearchViewModel
 
 @Composable
-fun MusicSearchScreen(viewModel: MusicSearchViewModel = viewModel()) {
-    val context = LocalContext.current
+fun SongSearchScreen(viewModel: SongSearchViewModel = viewModel()) {
     var query by remember { mutableStateOf("") }
     val searchResults by viewModel.searchResults.collectAsState()
 
@@ -101,5 +99,5 @@ fun SongItem(song: Song) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMusicSearchScreen() {
-    MusicSearchScreen()
+    SongSearchScreen()
 }

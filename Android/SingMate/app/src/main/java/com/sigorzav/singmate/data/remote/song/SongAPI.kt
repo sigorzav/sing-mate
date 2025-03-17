@@ -5,8 +5,11 @@ import com.sigorzav.singmate.model.Song
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MusicSearchAPI {
+interface SongAPI {
 
+    /**
+     * 노래 검색 (목록 조회)
+     */
     @GET("song/search")
-    suspend fun searchMusic(@Query("query") query: String): ApiResponse<Song>
+    suspend fun searchSongs(@Query("query") query: String): ApiResponse<Song>
 }

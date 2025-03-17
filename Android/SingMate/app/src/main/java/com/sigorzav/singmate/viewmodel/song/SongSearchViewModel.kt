@@ -7,19 +7,16 @@ import com.sigorzav.singmate.model.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 
-class MusicSearchViewModel : ViewModel() {
+class SongSearchViewModel : ViewModel() {
 
     private val _searchResults = MutableStateFlow<List<Song>>(emptyList())
     val searchResults: StateFlow<List<Song>> = _searchResults
 
-    private val client = OkHttpClient()
-
     fun searchMusic(query: String) {
         viewModelScope.launch {
             try {
-                var response = RetrofitInstance.api.searchMusic(query)
+                val response = RetrofitInstance.api.searchSongs(query)
                 if (response.statusCode == 200) {
                     _searchResults.emit(response.data)
                 } else {
