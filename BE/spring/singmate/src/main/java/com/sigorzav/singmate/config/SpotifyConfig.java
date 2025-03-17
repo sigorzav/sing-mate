@@ -1,6 +1,5 @@
 package com.sigorzav.singmate.config;
 
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
@@ -13,6 +12,12 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 
 import java.io.IOException;
 
+/**
+ * ✅ Spotify API Config
+ * - Access Token 생성
+ * - 만료여부 체크 및 자동 갱신
+ * - Refresh Token 갱신 미생성 (Client Credentials Flow 방식)
+ */
 @Slf4j
 @Component
 public class SpotifyConfig {
@@ -20,6 +25,9 @@ public class SpotifyConfig {
     @Getter
     private final SpotifyApi spotifyApi;
     private final ClientCredentialsRequest clientCredentialsRequest;
+
+    // Access Token의 만료 시간 (밀리초)
+    private long tokenExpirationTime;
 
     public SpotifyConfig(
             @Value("${spotify.client.id}") String spotifyClientId,
@@ -51,11 +59,24 @@ public class SpotifyConfig {
             // Spotify API에 Access Token 설정
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 
+            // 유효시간 설정: 1시간
+            this.tokenExpirationTime = System.currentTimeMillis() + 3600 * 1000;
             log.info("Access Token retrieved successfully! Expires in: {} seconds", clientCredentials.getExpiresIn());
         } catch (IOException | SpotifyWebApiException | RuntimeException | ParseException e) {
             log.error("Error while retrieving access token: ", e);
         }
+    }
 
+    // Access Token 만료 및 갱신
+    public void ensureAccessToken() {
+        if (isAccessTokenExpired()) {
+            requestAccessToken();
+        }
+    }
+
+    // Access Token 만료 여부 확인
+    private boolean isAccessTokenExpired() {
+        return System.currentTimeMillis() >= tokenExpirationTime;
     }
 
 }

@@ -27,10 +27,14 @@ public class SpotifyService {
      */
     public List<SongDTO> searchSongs(String query) {
         SpotifyApi spotifyApi = spotifyConfig.getSpotifyApi();
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query).build();
+
+        // Access Token 만료 확인 및 갱신
+        spotifyConfig.ensureAccessToken();
 
         try {
+            SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(query).build();
             Track[] tracks = searchTracksRequest.execute().getItems();
+
             return convertToSongs(tracks);
         } catch (IOException | SpotifyWebApiException | RuntimeException | ParseException e) {
             log.error("Spotify API 검색 오류 발생", e);
@@ -42,7 +46,6 @@ public class SpotifyService {
      * 노래 검색 - 결과 리스트 생성
      */
     private List<SongDTO> convertToSongs(Track[] tracks) {
-        //List<Map<String, Object>> songList = new ArrayList<>();
         List<SongDTO> songs = new ArrayList<>();
 
         for (Track track : tracks) {
