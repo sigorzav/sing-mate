@@ -9,5 +9,5 @@ public interface SongService {
     /**
      * 노래 검색
      */
-    ApiResponse<Object> songSearchList(String query);
+    ApiResponse<Object> searchSongs(String query);
 }
