@@ -23,6 +23,8 @@ gson = "2.11.0"
 hilt = "2.50"
 hilt-navigation = "1.2.0"
 hilt-navigation-compose = "1.0.0"
+stetho = "1.6.0"
+
 # firebaseBom = "33.10.0"
 # firebaseAuthKtx = "23.2.0"
 
@@ -57,6 +59,11 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hilt-navigation" }
 hilt-core = { module = "javax.inject:javax.inject", version = "1" } # Inject
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+
+# Stetho
+stetho = { module = "com.facebook.stetho:stetho", version.ref = "stetho" }
+stetho-okhttp3 = { module = "com.facebook.stetho:stetho-okhttp3", version.ref = "stetho" }
+stetho-js-rhino = { module = "com.facebook.stetho:stetho-js-rhino", version.ref = "stetho" }
 
 # FireBase
 # firebaseBom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }

@@ -1,11 +1,13 @@
 package com.sigorzav.singmate.data.remote
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.sigorzav.singmate.config.EnvConfig
 import com.sigorzav.singmate.data.remote.song.SongAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -20,12 +22,21 @@ object NetworkModule {
 
     private val BASE_URL = EnvConfig.BaseUrl.valueOf(EnvConfig.ENVIRONMENT).url
 
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addNetworkInterceptor(StethoInterceptor())
+            .build()
+    }
+
     // ✅ Retrofit Instance
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

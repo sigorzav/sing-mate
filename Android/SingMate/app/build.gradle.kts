@@ -70,8 +70,13 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     // implementation(libs.firebase.auth.ktx)
 
-    // Debug 용 UI Tool
+    // Debug
     debugImplementation(libs.debug.compose.ui.tooling)
+
+    // Stetho
+    implementation(libs.stetho)
+    implementation(libs.stetho.okhttp3)
+    implementation(libs.stetho.js.rhino)
 
     // API
     implementation(libs.okhttp)
