@@ -12,7 +12,7 @@ class SongRepository @Inject constructor(private val songApi: SongAPI){
     fun searchSongs(query: String): Flow<List<Song>> = flow {
         val response = songApi.searchSongs(query)
         if (response.statusCode == HttpStatus.OK.code) {
-            response.data
+            emit(response.data)
         } else {
             throw Exception("SongRepository Error: ${HttpStatus.INTERNAL_SERVER_ERROR.code}, ${HttpStatus.INTERNAL_SERVER_ERROR.message}")
         }
