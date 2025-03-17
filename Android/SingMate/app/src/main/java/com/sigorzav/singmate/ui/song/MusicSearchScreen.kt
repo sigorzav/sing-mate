@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sigorzav.singmate.model.Song
 import com.sigorzav.singmate.viewmodel.song.MusicSearchViewModel
 
 @Composable
@@ -84,14 +85,14 @@ fun MusicSearchScreen(viewModel: MusicSearchViewModel = viewModel()) {
 }
 
 @Composable
-fun SongItem(song: String) {
+fun SongItem(song: Song) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
         Text(
-            text = song,
+            text = song.songTitle,
             modifier = Modifier.padding(16.dp)
         )
     }
