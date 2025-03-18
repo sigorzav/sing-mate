@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("song/")
+@RequestMapping("api/v1/song/")
 @RequiredArgsConstructor
 @Tag(name = "SongController", description="노래 관련 기능 API")
-public class SongController {
+public class SongControllerV1 {
 
     private final SongService songService;
 
