@@ -21,7 +21,7 @@
             android:name=".SongActivity"
             android:exported="true" />
         <activity
-            android:name=".AuthActivity"
+            android:name=".UserActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

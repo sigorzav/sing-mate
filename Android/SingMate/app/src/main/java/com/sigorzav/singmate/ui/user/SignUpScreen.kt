@@ -5,17 +5,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.sigorzav.singmate.viewmodel.auth.AuthViewModel
+import com.sigorzav.singmate.viewmodel.user.UserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
+fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
     var email by remember { mutableStateOf("") }
-    var userId by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var emailChecked by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var birthDay by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
+
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -27,20 +31,25 @@ fun SignUpScreen(viewModel: AuthViewModel, onSignInClick: () -> Unit) {
         // EMAIL
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                emailChecked = false
+                emailError = null
+            },
             label = { Text("이메일") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.weight(1f),
+            isError = emailError != null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
-        // USER_ID
-        OutlinedTextField(
-            value = userId,
-            onValueChange = { userId = it },
-            label = { Text("아이디") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Button(onClick = {
+            coroutineScope.launch {
+                //emailError = viewModel.checkEmailDuplicate(email)
+                emailChecked = emailError == null
+            }
+        }) {
+            Text("중복 확인")
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 

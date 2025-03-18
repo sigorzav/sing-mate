@@ -1,10 +1,14 @@
-package com.sigorzav.singmate.viewmodel.auth
+package com.sigorzav.singmate.viewmodel.user
 
 import androidx.lifecycle.ViewModel
+import com.sigorzav.singmate.data.repository.SongRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
+@HiltViewModel
+class UserViewModel @Inject constructor(private val songRepository: SongRepository) : ViewModel() {
 
     private val _loginState = MutableStateFlow<AuthResult?>(null)
     val loginState: StateFlow<AuthResult?> = _loginState
