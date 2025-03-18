@@ -3,13 +3,17 @@ package com.sigorzav.singmate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sigorzav.singmate.ui.song.MusicSearchScreen
-import com.sigorzav.singmate.viewmodel.song.MusicSearchViewModel
+import com.sigorzav.singmate.ui.song.SongSearchScreen
 
+import com.sigorzav.singmate.viewmodel.song.SongSearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class SongActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,11 +21,11 @@ class SongActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val viewModel: MusicSearchViewModel = viewModel()
+            val viewModel: SongSearchViewModel = hiltViewModel()
 
-            NavHost(navController = navController, startDestination = "music_search") {
-                composable("music_search") {
-                    MusicSearchScreen(viewModel = viewModel)
+            NavHost(navController = navController, startDestination = "song_search") {
+                composable("song_search") {
+                    SongSearchScreen(viewModel = viewModel)
                 }
             }
         }

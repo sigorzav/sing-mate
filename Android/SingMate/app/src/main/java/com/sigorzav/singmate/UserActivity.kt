@@ -1,24 +1,26 @@
 package com.sigorzav.singmate
 
-import SignInScreen
-import SignUpScreen
+import com.sigorzav.singmate.ui.user.SignInScreen
+import com.sigorzav.singmate.ui.user.SignUpScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sigorzav.singmate.viewmodel.auth.AuthViewModel
+import com.sigorzav.singmate.viewmodel.user.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class AuthActivity : ComponentActivity() {
+@AndroidEntryPoint
+class UserActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
 
         setContent {
             val navController = rememberNavController()
-            val viewModel: AuthViewModel = viewModel()
+            val viewModel: UserViewModel = hiltViewModel()
 
             NavHost(navController = navController, startDestination = "login") {
                 composable("login") {

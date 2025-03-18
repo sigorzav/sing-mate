@@ -24,7 +24,7 @@ public class SongServiceImpl implements SongService {
      */
     @Override
     public ApiResponse<Object> searchSongs(String query) {
-        log.info("songSearch request processing: {}", query);
+        log.info("songSearch request processing. Query: {}", query);
 
         try {
             List<SongDTO> songs = spotifyService.searchSongs(query);
