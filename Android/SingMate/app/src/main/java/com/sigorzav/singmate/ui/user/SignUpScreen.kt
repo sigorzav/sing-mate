@@ -1,21 +1,42 @@
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import com.sigorzav.singmate.viewmodel.user.UserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
+fun SignUpScreen(viewModel: UserViewModel = viewModel(), onSignInClick: () -> Unit = {}) {
+    val duplicateState by viewModel.duplicateState.collectAsState()
+    val isSaveEnabled = !(duplicateState["EMAIL"] == true || duplicateState["NICKNAME"] == true)
+
     var email by remember { mutableStateOf("") }
-    var emailError by remember { mutableStateOf<String?>(null) }
-    var emailChecked by remember { mutableStateOf(false) }
+    var nickname by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var nickname by remember { mutableStateOf("") }
     var birthDay by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
 
@@ -28,30 +49,41 @@ fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
     ) {
         Text(text = "회원가입", style = MaterialTheme.typography.headlineMedium)
 
+        // Email CheckDuplicate
+        val emailFocusModifier = Modifier.onFocusChanged { focusState ->
+            if (!focusState.isFocused && email.isNotBlank()) {
+                coroutineScope.launch {
+                    val emailRequest = CheckDuplicateRequest(type = "EMAIL", value = email)
+                    viewModel.fetchCheckDuplicate(emailRequest)
+                }
+            }
+        }
+
+        // Nickname CheckDuplicate
+        val nicknameFocusModifier = Modifier.onFocusChanged { focusState ->
+            if (!focusState.isFocused && nickname.isNotBlank()) {
+                coroutineScope.launch {
+                    val nicknameRequest = CheckDuplicateRequest(type = "NICKNAME", value = nickname)
+                    viewModel.fetchCheckDuplicate(nicknameRequest)
+                }
+            }
+        }
+
         // EMAIL
         OutlinedTextField(
             value = email,
-            onValueChange = {
-                email = it
-                emailChecked = false
-                emailError = null
-            },
+            onValueChange = { email = it },
             label = { Text("이메일") },
-            modifier = Modifier.weight(1f),
-            isError = emailError != null
+            modifier = Modifier.fillMaxWidth().then(emailFocusModifier)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {
-            coroutineScope.launch {
-                //emailError = viewModel.checkEmailDuplicate(email)
-                emailChecked = emailError == null
-            }
-        }) {
-            Text("중복 확인")
+        Spacer(modifier = Modifier.height(2.dp))
+
+        if (duplicateState["EMAIL"] == true) {
+            Text("사용할 수 없는 이메일입니다. 다른 이메일을 입력해주세요.", color = MaterialTheme.colorScheme.error)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         // PASSWORD
         OutlinedTextField(
@@ -80,10 +112,16 @@ fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
             value = nickname,
             onValueChange = { nickname = it },
             label = { Text("닉네임") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().then(nicknameFocusModifier)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(2.dp))
+
+        if (duplicateState["NICKNAME"] == true) {
+            Text("사용할 수 없는 닉네임입니다. 다른 닉네임을 입력해주세요.", color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
 
         // BIRTHDAY
         OutlinedTextField(
@@ -111,6 +149,7 @@ fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
                     viewModel.signUp(email, password)
                 }
             },
+            enabled = isSaveEnabled,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("회원가입")
@@ -122,4 +161,10 @@ fun SignUpScreen(viewModel: UserViewModel, onSignInClick: () -> Unit) {
             Text("로그인 화면으로 이동")
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewSignUpScreen() {
+    SignUpScreen()
 }
