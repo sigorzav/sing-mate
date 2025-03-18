@@ -26,6 +26,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
+import com.sigorzav.singmate.ui.component.BirthDateField
+import com.sigorzav.singmate.ui.component.GenderSelection
+import com.sigorzav.singmate.ui.component.GenreSelection
 import com.sigorzav.singmate.viewmodel.user.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -33,13 +36,15 @@ import kotlinx.coroutines.launch
 fun SignUpScreen(viewModel: UserViewModel = viewModel(), onSignInClick: () -> Unit = {}) {
     val duplicateState by viewModel.duplicateState.collectAsState()
     val isSaveEnabled = !(duplicateState["EMAIL"] == true || duplicateState["NICKNAME"] == true)
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     var email by remember { mutableStateOf("") }
-    var nickname by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
+    var genre by remember { mutableStateOf(emptyList<String>()) }
     var birthDay by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("M") }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -106,7 +111,13 @@ fun SignUpScreen(viewModel: UserViewModel = viewModel(), onSignInClick: () -> Un
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(2.dp))
+
+        if (password != confirmPassword) {
+            Text("동일한 비밀번호를 입력해주세요.", color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
 
         // NICKNAME
         OutlinedTextField(
@@ -125,24 +136,26 @@ fun SignUpScreen(viewModel: UserViewModel = viewModel(), onSignInClick: () -> Un
         Spacer(modifier = Modifier.height(6.dp))
 
         // BIRTHDAY
-        OutlinedTextField(
-            value = birthDay,
-            onValueChange = { birthDay = it },
-            label = { Text("생년월일") },
-            modifier = Modifier.fillMaxWidth()
+        BirthDateField(
+            birthDay = birthDay,
+            onValueChange = { birthDay = it }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        // GENRE
+        GenreSelection(
+            selectedGenres = genre,
+            onGenreSelected = { genre = it }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         // GENDER
-        OutlinedTextField(
-            value = gender,
-            onValueChange = { gender = it },
-            label = { Text("성별") },
-            modifier = Modifier.fillMaxWidth()
+        GenderSelection(
+            selectedGender = gender,
+            onGenderSelected = { gender = it }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
