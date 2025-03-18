@@ -2,6 +2,7 @@ package com.sigorzav.singmate.data.remote
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.sigorzav.singmate.config.EnvConfig
+import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.data.remote.song.SongAPI
 import dagger.Module
 import dagger.Provides
@@ -39,6 +40,13 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    // ✅ Retrofit > UserAPI Interface
+    @Provides
+    @Singleton
+    fun provideUserAPI(retrofit: Retrofit): UserAPI {
+        return retrofit.create(UserAPI::class.java)
     }
 
     // ✅ Retrofit > SongAPI Interface
