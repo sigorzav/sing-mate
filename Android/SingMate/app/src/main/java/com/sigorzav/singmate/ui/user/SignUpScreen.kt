@@ -1,3 +1,5 @@
+package com.sigorzav.singmate.ui.user
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
@@ -161,10 +162,4 @@ fun SignUpScreen(viewModel: UserViewModel = viewModel(), onSignInClick: () -> Un
             Text("로그인 화면으로 이동")
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignUpScreen() {
-    SignUpScreen()
 }

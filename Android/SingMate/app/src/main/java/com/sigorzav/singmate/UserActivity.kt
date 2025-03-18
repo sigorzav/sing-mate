@@ -1,7 +1,7 @@
 package com.sigorzav.singmate
 
-import SignInScreen
-import SignUpScreen
+import com.sigorzav.singmate.ui.user.SignInScreen
+import com.sigorzav.singmate.ui.user.SignUpScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
