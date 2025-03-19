@@ -40,7 +40,7 @@ fun GenderSelection(selectedGender: String, onGenderSelected: (String) -> Unit) 
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = if (value == "M") Icons.Default.Person else Icons.Default.Face,
+                        imageVector = if (value == "M") Icons.Default.Face else Icons.Default.Face,
                         contentDescription = display,
                         tint = if (selectedGender == value) Color.White else Color.Gray,
                         modifier = Modifier.size(50.dp)
