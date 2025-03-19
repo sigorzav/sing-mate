@@ -3,6 +3,8 @@ package com.sigorzav.singmate.viewmodel.user
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sigorzav.singmate.data.repository.UserRepository
+import com.sigorzav.singmate.data.repository.cache.GenreRepository
+import com.sigorzav.singmate.model.CommonCode
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
+class UserViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    genreRepository: GenreRepository
+) : ViewModel() {
 
     private val _loginState = MutableStateFlow<AuthResult?>(null)
     val loginState: StateFlow<AuthResult?> = _loginState
@@ -21,18 +26,22 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
     private val _isUserLoggedIn = MutableStateFlow(false)
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
+    // 선호 장르 (캐싱)
+    val genres: StateFlow<List<CommonCode>> = genreRepository.cachedGenres
+
+    // 사용자 중복 데이터 체크
     private val _duplicateState  = MutableStateFlow<Map<String, Boolean>>(emptyMap())
-    val duplicateState: StateFlow<Map<String, Boolean>> get() = _duplicateState .asStateFlow()
+    val duplicateState: StateFlow<Map<String, Boolean>> get() = _duplicateState.asStateFlow()
 
     fun fetchCheckDuplicate(request: CheckDuplicateRequest) {
         viewModelScope.launch {
             userRepository.fetchCheckDuplicate(request)
                 .catch { e ->
                     e.printStackTrace()
-                    _duplicateState .value = emptyMap()
+                    _duplicateState.value = emptyMap()
                 }
                 .collect { response ->
-                    _duplicateState .value = _duplicateState .value.toMutableMap().apply {
+                    _duplicateState.value = _duplicateState.value.toMutableMap().apply {
                         this[request.type] = response
                     }
                 }

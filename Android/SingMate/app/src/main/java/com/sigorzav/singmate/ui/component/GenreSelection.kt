@@ -13,12 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sigorzav.singmate.model.CommonCode
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun GenreSelection(selectedGenres: List<String>, onGenreSelected: (List<String>) -> Unit) {
-    val genres = listOf("발라드", "댄스", "힙합", "R&B", "팝", "재즈", "락", "트로트", "클래식")
-
+fun GenreSelection(
+    selectedGenres: List<String>,
+    onGenreSelected: (List<String>) -> Unit,
+    genres: List<CommonCode>
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +40,7 @@ fun GenreSelection(selectedGenres: List<String>, onGenreSelected: (List<String>)
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             genres.forEach { genre ->
-                val isSelected = genre in selectedGenres
+                val isSelected = genre.code in selectedGenres
 
                 Box(
                     modifier = Modifier
@@ -47,9 +50,9 @@ fun GenreSelection(selectedGenres: List<String>, onGenreSelected: (List<String>)
                         )
                         .clickable {
                             val updatedGenres = if (isSelected) {
-                                selectedGenres - genre
+                                selectedGenres - genre.code
                             } else {
-                                selectedGenres + genre
+                                selectedGenres + genre.code
                             }
                             onGenreSelected(updatedGenres)
                         }
@@ -58,7 +61,7 @@ fun GenreSelection(selectedGenres: List<String>, onGenreSelected: (List<String>)
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = genre,
+                        text = genre.name,
                         fontSize = 14.sp,
                         color = if (isSelected) Color.White else Color.Black,
                         textAlign = TextAlign.Center
