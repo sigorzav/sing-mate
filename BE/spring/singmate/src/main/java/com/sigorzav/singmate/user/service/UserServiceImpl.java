@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

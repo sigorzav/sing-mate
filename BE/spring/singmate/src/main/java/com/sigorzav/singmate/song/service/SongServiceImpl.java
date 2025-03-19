@@ -13,8 +13,8 @@ import java.util.List;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class SongServiceImpl implements SongService {
 
     private final SpotifyService spotifyService;

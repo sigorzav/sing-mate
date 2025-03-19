@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/song/")
 @RequiredArgsConstructor
-@Tag(name = "SongController", description="노래 관련 기능 API")
+@Tag(name = "SongControllerV1", description="노래 관련 기능 API - V1")
 public class SongControllerV1 {
 
     private final SongService songService;
@@ -23,4 +23,5 @@ public class SongControllerV1 {
     public ApiResponse<Object> searchSongs(@RequestParam String query) {
         return songService.searchSongs(query);
     }
+
 }

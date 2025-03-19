@@ -10,10 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "sm_user")
-public class User {
+public class UserEntity {
 
+    // AUTO_INCREMENT
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 필드
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userSeq;
 
     // 비밀번호
