@@ -1,6 +1,5 @@
 package com.sigorzav.singmate.data.repository
 
-import android.util.Log
 import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import com.sigorzav.singmate.util.HttpStatus

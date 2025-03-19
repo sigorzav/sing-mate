@@ -1,7 +1,7 @@
 package com.sigorzav.singmate.data.remote.song
 
-import com.sigorzav.singmate.model.response.ApiResponse
 import com.sigorzav.singmate.model.Song
+import com.sigorzav.singmate.model.response.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query

@@ -2,6 +2,7 @@ package com.sigorzav.singmate.data.remote
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.sigorzav.singmate.config.EnvConfig
+import com.sigorzav.singmate.data.remote.common.CommonAPI
 import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.data.remote.song.SongAPI
 import dagger.Module
@@ -54,6 +55,13 @@ object NetworkModule {
     @Singleton
     fun provideSongAPI(retrofit: Retrofit): SongAPI {
         return retrofit.create(SongAPI::class.java)
+    }
+
+    // ✅ Retrofit > CommonAPI Interface
+    @Provides
+    @Singleton
+    fun provideCommonAPI(retrofit: Retrofit): CommonAPI {
+        return retrofit.create(CommonAPI::class.java)
     }
 
 }
