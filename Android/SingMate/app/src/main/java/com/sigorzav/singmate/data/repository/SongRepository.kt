@@ -9,6 +9,9 @@ import javax.inject.Inject
 
 class SongRepository @Inject constructor(private val songApi: SongAPI){
 
+    /**
+     * 노래 검색
+     */
     fun fetchSearchSongs(query: String): Flow<List<Song>> = flow {
         val response = songApi.searchSongs(query)
         if (response.statusCode == HttpStatus.OK.code) {
