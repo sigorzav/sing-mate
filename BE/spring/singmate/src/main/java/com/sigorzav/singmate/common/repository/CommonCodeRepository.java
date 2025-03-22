@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface CommonCodeRepository extends JpaRepository<CommonCodeEntity, Long> {
 
+    List<CommonCodeDTO> findBy();
+
     List<CommonCodeDTO> findByDivisionAndCodeGroup(String division, String codeGroup);
 }

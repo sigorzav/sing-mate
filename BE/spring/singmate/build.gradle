@@ -35,7 +35,7 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:3.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.apache.commons:commons-pool2'
-	implementation 'io.lettuce.core:lettuce-core'
+	implementation 'io.lettuce:lettuce-core:6.5.5.RELEASE'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'

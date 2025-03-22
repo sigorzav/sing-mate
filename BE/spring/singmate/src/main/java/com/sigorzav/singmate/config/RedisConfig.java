@@ -12,10 +12,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
+    @Value("${spring.data.redis.host}")
     private String redisHost;
 
-    @Value("${spring.redis.port}")
+    @Value("${spring.data.redis.port}")
     private int redisPort;
 
     @Bean
@@ -30,8 +30,8 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(connectionFactory);
 
         // Serialization 설정
-        redisTemplate.setKeySerializer(new StringRedisSerializer());                // Key 직렬화
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // Value 직렬화
+        redisTemplate.setKeySerializer(new StringRedisSerializer());                // Key 문자열로 직렬화
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // Value JSON으로 직렬화
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
