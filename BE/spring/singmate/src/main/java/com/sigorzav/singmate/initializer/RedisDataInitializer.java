@@ -1,8 +1,9 @@
 package com.sigorzav.singmate.initializer;
 
+import com.sigorzav.singmate.api.service.RedisService;
+import com.sigorzav.singmate.common.cache.CommonCodeCache;
 import com.sigorzav.singmate.common.dto.CommonCodeDTO;
 import com.sigorzav.singmate.common.repository.CommonCodeRepository;
-import com.sigorzav.singmate.service.RedisService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +25,19 @@ public class RedisDataInitializer {
     public void loadCommonCodesIntoRedis() {
         List<CommonCodeDTO> codeData = commonCodeRepository.findBy();
 
-        Map<String, Map<String, String>> redisData = new HashMap<>();
+        Map<String, Map<String, CommonCodeCache>> redisData = new HashMap<>();
         for (CommonCodeDTO data : codeData) {
-            String division = data.getDivision();
-            String codeGroup = data.getCodeGroup();
-            String code = data.getCode();
-            String name = data.getName();
 
-            // Key: division:code_group
-            String key = division + ":" + codeGroup;
-            redisData.computeIfAbsent(key, k -> new HashMap<>()).put(code, name);
+            // redisKey: division_code_group
+            String redisKey = data.getDivision() + "_" + data.getCodeGroup();
+            String code = data.getCode();
+
+            CommonCodeCache commonCodeCache = new CommonCodeCache(
+                data.getCode(),
+                data.getName(),
+                data.getCodeSeq()
+            );
+            redisData.computeIfAbsent(redisKey, k -> new HashMap<>()).put(code, commonCodeCache);
         }
 
         redisService.saveCommonCodesToRedis(redisData);

@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CommonCodeDTO {
 
+    private Integer codeSeq;    // 코드 시퀀스 
     private String division;    // 구분
     private String codeGroup;   // 코드그룹
     private String code;        // 코드

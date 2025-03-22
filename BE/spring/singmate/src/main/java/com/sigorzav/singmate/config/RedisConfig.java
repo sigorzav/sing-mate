@@ -29,11 +29,13 @@ public class RedisConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
 
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer();
+
         // Serialization 설정
-        redisTemplate.setKeySerializer(new StringRedisSerializer());                // Key 문자열로 직렬화
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // Value JSON으로 직렬화
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setValueSerializer(serializer);
+        redisTemplate.setHashValueSerializer(serializer);
 
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
