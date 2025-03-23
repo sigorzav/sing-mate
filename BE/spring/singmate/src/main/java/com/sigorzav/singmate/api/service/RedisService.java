@@ -3,7 +3,9 @@ package com.sigorzav.singmate.api.service;
 import com.sigorzav.singmate.api.response.ApiResponse;
 import com.sigorzav.singmate.api.response.CommonCodeResponse;
 import com.sigorzav.singmate.common.cache.CommonCodeCache;
-import com.sigorzav.singmate.common.dto.CommonCodeDTO;
+import com.sigorzav.singmate.common.enums.CommonCodeEnum;
+import com.sigorzav.singmate.common.enums.MessageEnum;
+import com.sigorzav.singmate.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,7 +36,7 @@ public class RedisService {
      * (API) 공통코드 조회
      */
     public ApiResponse<Object> getCommonCode(String codeKey) {
-        log.info("getCommonCode request processing. codeKey: {}", codeKey);
+        log.info("[Redis] getCommonCode request processing. codeKey: {}", codeKey);
 
         try {
             Map<Object, Object> redisResult = redisTemplate.opsForHash().entries(codeKey);
@@ -48,12 +50,32 @@ public class RedisService {
                     .toList();
 
             if (commonCodes.isEmpty()) {
-                return new ApiResponse<>(HttpStatus.NO_CONTENT, "No common codes");
+                return ApiResponse.noContent("[Redis] No Common Codes");
             }
 
-            return new ApiResponse<>(commonCodes);
+            return ApiResponse.success(commonCodes);
         } catch (Exception e) {
-            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while fetching common codes: " + e.getMessage());
+            log.error("[Redis] getCommonCode error", e);
+            throw new CustomException(MessageEnum.SIGNUP_FAIL.getMsg(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * 공통 코드 조회
+     */
+    public Optional<CommonCodeCache> getCommonCodeFromRedis(CommonCodeEnum redisKey, String code) {
+        Object value = redisTemplate.opsForHash().get(redisKey.getKey(), code);
+
+        if (value == null) {
+            log.warn("[Redis] key={}, code='{}' → Not Found", redisKey.getKey(), code);
+            return Optional.empty();
+        }
+
+        try {
+            return Optional.of((CommonCodeCache) value);
+        } catch (ClassCastException e) {
+            log.error("[Redis] Parsing Error key={}, code={}, value={}", redisKey.getKey(), code, value, e);
+            return Optional.empty();
         }
     }
 }

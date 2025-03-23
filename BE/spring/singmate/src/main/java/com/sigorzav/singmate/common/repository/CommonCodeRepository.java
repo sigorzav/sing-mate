@@ -10,5 +10,4 @@ public interface CommonCodeRepository extends JpaRepository<CommonCodeEntity, Lo
 
     List<CommonCodeDTO> findBy();
 
-    List<CommonCodeDTO> findByDivisionAndCodeGroup(String division, String codeGroup);
 }

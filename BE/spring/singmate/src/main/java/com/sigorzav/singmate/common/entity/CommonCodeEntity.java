@@ -5,13 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "sm_common_code")
-public class CommonCodeEntity {
+public class CommonCodeEntity extends BaseEntity {
 
     // AUTO_INCREMENT
     @Id
@@ -43,11 +41,4 @@ public class CommonCodeEntity {
     @Column(name = "is_active", nullable = false, columnDefinition = "boolean default true")
     private Boolean isActive;
 
-    // 생성일자
-    @Column(name = "created_at", nullable = false, columnDefinition = "datetime default current_timestamp")
-    private LocalDateTime createdAt;
-
-    // 수정일자
-    @Column(name = "updated_at", nullable = false, columnDefinition = "datetime default current_timestamp on update current_timestamp")
-    private LocalDateTime updatedAt;
 }
