@@ -1,16 +1,15 @@
 package com.sigorzav.singmate.user.entity;
 
+import com.sigorzav.singmate.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "sm_user")
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
     // AUTO_INCREMENT
     @Id
@@ -31,7 +30,7 @@ public class UserEntity {
 
     // 생년월일: DATE 형식과 매핑
     @Column(nullable = false, length = 8)
-    private String birthDate;
+    private String birthDay;
 
     // 성별
     @Enumerated(EnumType.STRING)
@@ -44,15 +43,7 @@ public class UserEntity {
 
     // 계정 상태 코드
     @Column(nullable = false)
-    private Integer accountStatusCode;
-
-    // 생성 일자 (업데이트 불가)
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    // 수정 일자
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private Integer accountStatusCodeSeq;
 
     // EnumType: Gender 타입 정의
     public enum Gender {
