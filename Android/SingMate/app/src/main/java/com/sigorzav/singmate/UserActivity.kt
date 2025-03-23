@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sigorzav.singmate.viewmodel.user.SignUpViewModel
 import com.sigorzav.singmate.viewmodel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +22,8 @@ class UserActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val viewModel: UserViewModel = hiltViewModel()
+            //val signInViewModel: SignInViewModel = hiltViewModel()
+            val signUpViewModel: SignUpViewModel = hiltViewModel()
 
             NavHost(navController = navController, startDestination = "login") {
                 composable("login") {
@@ -31,7 +34,7 @@ class UserActivity : ComponentActivity() {
                 }
                 composable("signup") {
                     SignUpScreen(
-                        viewModel = viewModel,
+                        viewModel = signUpViewModel,
                         onSignInClick = { navController.popBackStack() }
                     )
                 }

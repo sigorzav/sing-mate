@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,21 +63,26 @@ class SignUpViewModel @Inject constructor(
     }
 
     // ✅  회원 가입 API
-    fun signUp(request: SignUpRequest) {
+    fun fetchSignUp(request: SignUpRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             _signUpMessage.value = null
 
-            val response = userRepository.fetchSignUp(request)
+            userRepository.fetchSignUp(request)
                 .catch { e ->
                     e.printStackTrace()
                     _signUpMessage.value = "회원가입에 실패했습니다. 다시 시도해주세요."
                 }
-                .collect { response ->
-                    _signUpMessage.value = "회원가입이 완료되었습니다."
+                .onCompletion {
+                    _isLoading.value = false
                 }
-
-            _isLoading.value = false
+                .collect { response ->
+                    if (response) {
+                        _signUpMessage.value = "회원가입이 완료되었습니다."
+                    } else {
+                        _signUpMessage.value = "회원가입에 실패했습니다. 다시 시도해주세요."
+                    }
+                }
         }
     }
 }
