@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.compose.icons.extended)
     implementation(libs.androidx.security.crypto)
 
     // Navigation (Compose 전용)

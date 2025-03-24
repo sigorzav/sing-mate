@@ -6,6 +6,10 @@ object Routes {
     const val SIGN_IN = "sign_in"
 
     // Song
-    const val SONG_HOME = "song_home"
-    const val SONG_SEARCH = "song_search"
+    const val SONG_HOME = "home"
+    const val SONG_SEARCH = "search"
+    const val SONG_DETAIL = "detail"
+    const val SONG_RECORD = "record"
+    const val SONG_LIBRARY = "library"
+    const val SONG_MYPAGE = "mypage"
 }
