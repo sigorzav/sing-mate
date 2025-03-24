@@ -56,7 +56,7 @@ public class RedisService {
             return ApiResponse.success(commonCodes);
         } catch (Exception e) {
             log.error("[Redis] getCommonCode error", e);
-            throw new CustomException(MessageEnum.SIGNUP_FAIL.getMsg(), HttpStatus.BAD_REQUEST);
+            throw new CustomException("[Redis] getCommonCode error", HttpStatus.BAD_REQUEST);
         }
     }
 

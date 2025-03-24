@@ -1,13 +1,16 @@
 package com.sigorzav.singmate.user.service;
 
 import com.sigorzav.singmate.api.response.ApiResponse;
+import com.sigorzav.singmate.api.response.SignInResponse;
 import com.sigorzav.singmate.api.service.RedisService;
 import com.sigorzav.singmate.common.cache.CommonCodeCache;
 import com.sigorzav.singmate.common.enums.CommonCodeEnum;
 import com.sigorzav.singmate.common.enums.MessageEnum;
 import com.sigorzav.singmate.common.enums.UserStatusEnum;
 import com.sigorzav.singmate.exception.CustomException;
+import com.sigorzav.singmate.security.JwtProvider;
 import com.sigorzav.singmate.user.dto.request.CheckDuplicateRequestDTO;
+import com.sigorzav.singmate.user.dto.request.SignInRequestDTO;
 import com.sigorzav.singmate.user.dto.request.SignUpRequestDTO;
 import com.sigorzav.singmate.user.entity.UserEntity;
 import com.sigorzav.singmate.user.entity.UserGenreEntity;
@@ -18,6 +21,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserGenreRepository userGenreRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     /**
      * ✅ 사용자 중복 데이터 체크
@@ -93,11 +102,38 @@ public class UserServiceImpl implements UserService {
                         });
             }
             userGenreRepository.saveAll(userGenreEntityList);
-            return ApiResponse.success(true, MessageEnum.SIGNUP_SUCCESS.getMsg());
+            return ApiResponse.success(true, MessageEnum.SIGN_UP_SUCCESS.getMsg());
         } catch (Exception e) {
-            log.error("signUp error", e);
-            throw new CustomException(MessageEnum.SIGNUP_FAIL.getMsg(), HttpStatus.BAD_REQUEST);
+            log.error("[signUp] error", e);
+            throw new CustomException(MessageEnum.SIGN_UP_FAIL.getMsg(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * ✅ 로그인
+     */
+    @Override
+    public ApiResponse<Object> signIn(SignInRequestDTO signInRequestDTO) {
+        try {
+            // 사용자 인증
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    signInRequestDTO.getEmail(),
+                    signInRequestDTO.getPassword()
+                )
+            );
+        } catch (BadCredentialsException e) {
+            log.error("[signIn] username or password is wrong.");
+            throw new CustomException(MessageEnum.EMAIL_OR_PASSWORD_WRONG.getMsg(), HttpStatus.UNAUTHORIZED);
+        } catch (AuthenticationException e) {
+            throw new CustomException(MessageEnum.SIGN_IN_FAIL.getMsg(), HttpStatus.UNAUTHORIZED);
+        }
+
+        // 인증 성공 → 토큰 생성
+        String token = jwtProvider.generateToken(signInRequestDTO.getEmail());
+
+        SignInResponse response = new SignInResponse(token);
+        return ApiResponse.success(response);
     }
 
 }

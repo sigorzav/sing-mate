@@ -2,6 +2,7 @@ package com.sigorzav.singmate.user.controller;
 
 import com.sigorzav.singmate.api.response.ApiResponse;
 import com.sigorzav.singmate.user.dto.request.CheckDuplicateRequestDTO;
+import com.sigorzav.singmate.user.dto.request.SignInRequestDTO;
 import com.sigorzav.singmate.user.dto.request.SignUpRequestDTO;
 import com.sigorzav.singmate.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,4 +37,10 @@ public class UserControllerV1 {
         return userService.signUp(signUpRequestDTO);
     }
 
+    @RequestMapping("sign-in")
+    @ResponseBody
+    @Operation(summary = "로그인", description = "사용자 인증 정보 체크 후, 토큰 발급 및 로그인 진행", tags = {"사용자 관리"})
+    public ApiResponse<Object> signIn(@RequestBody SignInRequestDTO signInRequestDTO) {
+        return userService.signIn(signInRequestDTO);
+    }
 }
