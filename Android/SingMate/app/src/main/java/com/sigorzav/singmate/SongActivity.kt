@@ -7,7 +7,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sigorzav.singmate.ui.navigation.Routes
+import com.sigorzav.singmate.ui.song.SongHomeScreen
 import com.sigorzav.singmate.ui.song.SongSearchScreen
+import com.sigorzav.singmate.viewmodel.song.SongHomeViewModel
 import com.sigorzav.singmate.viewmodel.song.SongSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,11 +22,15 @@ class SongActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val viewModel: SongSearchViewModel = hiltViewModel()
+            val songHomeViewModel: SongHomeViewModel = hiltViewModel()
+            val songSearchViewModel: SongSearchViewModel = hiltViewModel()
 
-            NavHost(navController = navController, startDestination = "song_search") {
-                composable("song_search") {
-                    SongSearchScreen(viewModel = viewModel)
+            NavHost(navController = navController, startDestination = Routes.SONG_HOME) {
+                composable(Routes.SONG_HOME) {
+                    SongHomeScreen(viewModel = songHomeViewModel)
+                }
+                composable(Routes.SONG_SEARCH) {
+                    SongSearchScreen(viewModel = songSearchViewModel)
                 }
             }
         }
