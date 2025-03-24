@@ -2,7 +2,9 @@ package com.sigorzav.singmate.data.repository
 
 import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
+import com.sigorzav.singmate.model.request.SignInRequest
 import com.sigorzav.singmate.model.request.SignUpRequest
+import com.sigorzav.singmate.model.response.SignInResponse
 import com.sigorzav.singmate.util.HttpStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,6 +34,18 @@ class UserRepository @Inject constructor(private val userApi : UserAPI) {
             emit(response.data)
         } else {
             throw Exception("UserRepository fetchSignUp Error: ${HttpStatus.INTERNAL_SERVER_ERROR.code}, ${HttpStatus.INTERNAL_SERVER_ERROR.message}")
+        }
+    }
+
+    /**
+     * 로그인
+     */
+    fun fetchSignIn(request: SignInRequest): Flow<SignInResponse> = flow {
+        val response = userApi.signIn(request)
+        if (response.statusCode == HttpStatus.OK.code) {
+            emit(response.data)
+        } else {
+            throw Exception("UserRepository fetchSignIn Error: ${HttpStatus.INTERNAL_SERVER_ERROR.code}, ${HttpStatus.INTERNAL_SERVER_ERROR.message}")
         }
     }
 }
