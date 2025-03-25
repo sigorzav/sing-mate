@@ -1,6 +1,7 @@
 package com.sigorzav.singmate
 
 import android.app.Application
+import android.util.Log
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 
@@ -12,6 +13,7 @@ class SingMateApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("SingMate App", ">>> App Start")
 
         // ✅ Cache API 호출 (Redis 설정 > 미사용)
         // CoroutineScope(Dispatchers.IO).launch {
