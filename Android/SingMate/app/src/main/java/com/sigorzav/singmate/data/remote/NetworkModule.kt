@@ -3,6 +3,7 @@ package com.sigorzav.singmate.data.remote
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.sigorzav.singmate.config.EnvConfig
 import com.sigorzav.singmate.data.remote.common.CommonAPI
+import com.sigorzav.singmate.data.remote.interceptor.AuthInterceptor
 import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.data.remote.song.SongAPI
 import dagger.Module
@@ -26,8 +27,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
