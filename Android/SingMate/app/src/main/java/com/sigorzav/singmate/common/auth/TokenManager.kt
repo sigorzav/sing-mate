@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,11 +31,20 @@ class TokenManager @Inject constructor(
         sharedPrefs.edit().putString("access_token", token).apply()
     }
 
+    fun saveExpiredAt(date: Date) {
+        sharedPrefs.edit().putLong("expired_at", date.time).apply() // Date → Long
+    }
+
     fun getAccessToken(): String? {
         return sharedPrefs.getString("access_token", null)
     }
 
     fun clearAccessToken() {
         sharedPrefs.edit().remove("access_token").apply()
+    }
+
+    fun getExpiredAt(): Date? {
+        val millis = sharedPrefs.getLong("expired_at", -1L)
+        return if (millis > 0) Date(millis) else null
     }
 }

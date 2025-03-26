@@ -4,7 +4,7 @@ import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import com.sigorzav.singmate.model.request.SignInRequest
 import com.sigorzav.singmate.model.request.SignUpRequest
 import com.sigorzav.singmate.model.response.ApiResponse
-import com.sigorzav.singmate.model.response.SignInResponse
+import com.sigorzav.singmate.model.response.TokenResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -27,5 +27,5 @@ interface UserAPI {
      * 로그인
      */
     @POST("api/v1/user/sign-in")
-    suspend fun signIn(@Body request: SignInRequest): ApiResponse<SignInResponse>
+    suspend fun signIn(@Body request: SignInRequest): ApiResponse<TokenResponse>
 }

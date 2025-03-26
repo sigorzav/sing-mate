@@ -4,7 +4,7 @@ import com.sigorzav.singmate.data.remote.user.UserAPI
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import com.sigorzav.singmate.model.request.SignInRequest
 import com.sigorzav.singmate.model.request.SignUpRequest
-import com.sigorzav.singmate.model.response.SignInResponse
+import com.sigorzav.singmate.model.response.TokenResponse
 import com.sigorzav.singmate.util.HttpStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -40,7 +40,7 @@ class UserRepository @Inject constructor(private val userApi : UserAPI) {
     /**
      * 로그인
      */
-    fun fetchSignIn(request: SignInRequest): Flow<SignInResponse> = flow {
+    fun fetchSignIn(request: SignInRequest): Flow<TokenResponse> = flow {
         val response = userApi.signIn(request)
         if (response.statusCode == HttpStatus.OK.code) {
             emit(response.data)

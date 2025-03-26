@@ -37,6 +37,7 @@ class SignInViewModel @Inject constructor(
                 .collect { response ->
                     // ✅ JWT 토큰 저장
                     tokenManager.saveAccessToken(response.accessToken)
+                    tokenManager.saveExpiredAt(response.expiredAt)
                     _isUserLoggedIn.value = true
                 }
         }
