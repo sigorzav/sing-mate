@@ -1,7 +1,7 @@
 package com.sigorzav.singmate.user.service;
 
 import com.sigorzav.singmate.api.response.ApiResponse;
-import com.sigorzav.singmate.api.response.SignInResponse;
+import com.sigorzav.singmate.api.response.TokenResponse;
 import com.sigorzav.singmate.api.service.RedisService;
 import com.sigorzav.singmate.common.cache.CommonCodeCache;
 import com.sigorzav.singmate.common.enums.CommonCodeEnum;
@@ -129,10 +129,8 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(MessageEnum.SIGN_IN_FAIL.getMsg(), HttpStatus.UNAUTHORIZED);
         }
 
-        // 인증 성공 → 토큰 생성
-        String token = jwtProvider.generateToken(signInRequestDTO.getEmail());
-
-        SignInResponse response = new SignInResponse(token);
+        // 인증 성공 → 토큰 & 만료시간 생성
+        TokenResponse response = jwtProvider.generateTokenWithExpiry(signInRequestDTO.getEmail());
         return ApiResponse.success(response);
     }
 

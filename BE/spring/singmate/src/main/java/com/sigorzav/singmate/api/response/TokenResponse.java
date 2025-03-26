@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInResponse {
+public class TokenResponse {
 
     private String accessToken;
     // private String refreshToken;
+    private Date expiredAt;
 }

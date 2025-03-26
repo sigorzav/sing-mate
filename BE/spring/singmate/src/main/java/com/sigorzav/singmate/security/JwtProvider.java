@@ -1,5 +1,6 @@
 package com.sigorzav.singmate.security;
 
+import com.sigorzav.singmate.api.response.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,14 +24,25 @@ public class JwtProvider {
     private final JwtProperties jwtProperties;
     private final UserDetailsService userDetailsService;
 
+    Date expiryDate;
+
     // JWT 생성
-    public String generateToken(String email) {
-        return Jwts.builder()
+    public TokenResponse generateTokenWithExpiry(String email) {
+        long now = System.currentTimeMillis();
+        expiryDate = new Date(now + jwtProperties.getExpirationTime());
+
+        String token = Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime()))
+                .setIssuedAt(new Date(now))
+                .setExpiration(expiryDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+
+        return new TokenResponse(token, expiryDate);
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
     }
 
     // HTTP 요청의 헤더에서 JWT 추출
