@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.icons.extended)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.coil.compose)
 
     // Navigation (Compose 전용)
     implementation(libs.navigation.compose)

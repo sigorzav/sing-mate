@@ -32,7 +32,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sigorzav.singmate.model.request.CheckDuplicateRequest
 import com.sigorzav.singmate.model.request.SignUpRequest
 import com.sigorzav.singmate.ui.component.BirthDateField
@@ -43,7 +43,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = viewModel(), onSignInClick: () -> Unit = {}) {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    onSignInClick: () -> Unit = {}
+) {
     val duplicateState by viewModel.duplicateState.collectAsState()
     val genres by viewModel.genres.collectAsState()
     val isSaveEnabled = !(duplicateState["EMAIL"] == true || duplicateState["NICKNAME"] == true)

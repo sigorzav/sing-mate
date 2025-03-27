@@ -28,13 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sigorzav.singmate.SongActivity
 import com.sigorzav.singmate.model.request.SignInRequest
 import com.sigorzav.singmate.viewmodel.user.SignInViewModel
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInViewModel,
+    viewModel: SignInViewModel = hiltViewModel(),
     context: Context = LocalContext.current,
     onSignUpClick: () -> Unit
 ) {
