@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class YoutubeService {
     public String searchVideo(String title, String artist) throws IOException {
 
         // YouTube Search API 동영상 검색 요청 객체 생성
-        YouTube.Search.List search = youtube.search().list("id,snippet");
+        YouTube.Search.List search = youtube.search().list(Collections.singletonList("id,snippet"));
 
         // API KEY 설정
         search.setKey(youtubeConfig.getYoutubeApiKey());
@@ -34,7 +35,7 @@ public class YoutubeService {
         search.setQ(query);
         
         // Video & 최대 10개
-        search.setType("video");
+        search.setType(Collections.singletonList("video"));
         search.setMaxResults(10L);
 
         // API 호출
