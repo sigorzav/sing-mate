@@ -15,13 +15,13 @@ public class YoutubeServiceIntegrationTest {
     private YoutubeService youtubeService;
 
     @Test
-    void testSearchVideo_RealApiCall() throws Exception {
+    void testSearchVideoFromYouTube_RealApiCall() throws Exception {
         // Given
         String title = "좋은날";
         String artist = "아이유";
 
         // When
-        String videoId = youtubeService.searchVideo(title, artist);
+        String videoId = youtubeService.searchVideoFromYouTube(title, artist);
         log.info("videoId: {}", videoId);
 
         // Then

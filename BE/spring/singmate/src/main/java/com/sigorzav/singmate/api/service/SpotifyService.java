@@ -25,7 +25,7 @@ public class SpotifyService {
     /**
      * 노래 검색
      */
-    public List<SongDTO> searchSongs(String query) {
+    public List<SongDTO> searchSongsFromSpotify(String query) {
         SpotifyApi spotifyApi = spotifyConfig.getSpotifyApi();
 
         // Access Token 만료 확인 및 갱신

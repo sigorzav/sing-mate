@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @Slf4j
-public class YoutubeServiceMockTest {
+public class GeniusServiceMockTest {
 
     @Mock
-    private YoutubeService youtubeService;
+    private GeniusService geniusService;
 
     private AutoCloseable closeable;
 
@@ -29,17 +29,28 @@ public class YoutubeServiceMockTest {
     }
 
     @Test
-    public void testSearchVideoFromYouTube() throws Exception {
+    public void testSearchSongFromGenius() throws Exception {
         String title = "Too Bad";
         String artist = "G-Dragon";
 
-        when(youtubeService.searchVideoFromYouTube(title, artist)).thenReturn("Z8j_XEn9b_8");
+        when(geniusService.searchSongsFromGenius(title, artist)).thenReturn("Z8j_XEn9b_8");
 
-        String result = youtubeService.searchVideoFromYouTube(title, artist);
-        log.info("result: {}", result);
+        String result = geniusService.searchSongsFromGenius(title, artist);
+
 
         assertEquals("Z8j_XEn9b_8", result);
+        verify(geniusService, times(1)).searchSongsFromGenius(title, artist);
+    }
 
-        verify(youtubeService, times(1)).searchVideoFromYouTube(title, artist);
+    @Test
+    public void testGetLyricsFromGenius() throws Exception {
+        String songId = "123456789";
+
+        when(geniusService.getLyricsFromGenius(songId)).thenReturn("Z8j_XEn9b_8");
+
+        String result = geniusService.getLyricsFromGenius(songId);
+
+        assertEquals("Z8j_XEn9b_8", result);
+        verify(geniusService, times(1)).getLyricsFromGenius(songId);
     }
 }

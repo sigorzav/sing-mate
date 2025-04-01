@@ -22,7 +22,7 @@ public class YoutubeService {
     private final YouTube youtube;
     private final YoutubeConfig youtubeConfig;
 
-    public String searchVideo(String title, String artist) throws IOException {
+    public String searchVideoFromYouTube(String title, String artist) throws IOException {
 
         // YouTube Search API 동영상 검색 요청 객체 생성
         YouTube.Search.List search = youtube.search().list(Collections.singletonList("id,snippet"));
