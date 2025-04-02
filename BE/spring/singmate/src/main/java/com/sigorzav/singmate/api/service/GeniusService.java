@@ -1,10 +1,12 @@
 package com.sigorzav.singmate.api.service;
 
+import com.sigorzav.singmate.api.config.ApiConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ public class GeniusService {
     private String geniusApiToken;
 
     private static final String GENIUS_API_URL = "https://api.genius.com";
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     // HTTP 요청 객체 생성
     private HttpEntity<String> createHttpEntity() {
@@ -25,26 +27,33 @@ public class GeniusService {
 
     public String searchSongsFromGenius(String title, String artist) {
         String query = title + " " + artist;
-        String url = GENIUS_API_URL + "/search?q=" + query;
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, createHttpEntity(), String.class);
+        Mono<String> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .host(ApiConstants.GENIUS_BASE_URL)
+                        .path("/search")
+                        .queryParam("q", query)
+                        .build())
+                .header("Authorization", "Bearer " + geniusApiToken)
+                .retrieve()
+                .bodyToMono(String.class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return response.getBody();
-        } else {
-            throw new RuntimeException("Failed to fetch song detail from Genius API.");
-        }
+        return response.block();
     }
 
     public String getLyricsFromGenius(String songId) {
-        String url = GENIUS_API_URL + "/songs/" + songId;
+        Mono<String> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .host(ApiConstants.GENIUS_BASE_URL)
+                        .path("/songs/")
+                        .queryParam(songId)
+                        .build())
+                .header("Authorization", "Bearer " + geniusApiToken)
+                .retrieve()
+                .bodyToMono(String.class);
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, createHttpEntity(), String.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return response.getBody();
-        } else {
-            throw new RuntimeException("Failed to fetch lyrics from Genius API.");
-        }
+        return response.block();
     }
 }
