@@ -15,7 +15,6 @@ public class GeniusService {
     @Value("${GENIUS_API_TOKEN}")
     private String geniusApiToken;
 
-    private static final String GENIUS_API_URL = "https://api.genius.com";
     private final WebClient webClient;
 
     // HTTP 요청 객체 생성

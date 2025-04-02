@@ -12,5 +12,9 @@ public class ApiConstants {
     // Genius
     public static final String GENIUS_BASE_URL = "api.genius.com";
 
+    // MusicMatch
+    public static final String MUSICMATCH_BASE_URL = "api.musixmatch.com";
+
+
     private ApiConstants() {}
 }
